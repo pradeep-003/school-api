@@ -44,6 +44,8 @@ The request body must be in JSON format with the following properties:
 
 ### **Endpoint**
 
+`http://localhost:3006/api/listSchools?latitude=40.7128&longitude=-74.006`
+
 ### **Description**
 
 Retrieves a list of schools sorted based on proximity to the user's current geographical location.
