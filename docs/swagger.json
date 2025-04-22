@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/addSchool": {
+    "/api/addSchool": {
       "post": {
         "summary": "Add a new school",
         "requestBody": {
@@ -41,7 +41,7 @@
         }
       }
     },
-    "/listSchools": {
+    "/api/listSchools": {
       "get": {
         "summary": "List all schools sorted by distance",
         "parameters": [
