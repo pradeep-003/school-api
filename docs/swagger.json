@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3006/api"
+      "url": "https://school-api-kxlo.onrender.com"
     }
   ],
   "paths": {
