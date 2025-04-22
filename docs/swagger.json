@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "School Management API",
+    "version": "1.0.0",
+    "description": "APIs for managing schools and sorting by distance"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3006/api"
+    }
+  ],
+  "paths": {
+    "/addSchool": {
+      "post": {
+        "summary": "Add a new school",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "address": { "type": "string" },
+                  "latitude": { "type": "number" },
+                  "longitude": { "type": "number" }
+                },
+                "required": ["name", "address", "latitude", "longitude"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "School added successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/listSchools": {
+      "get": {
+        "summary": "List all schools sorted by distance",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sorted list of schools",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "name": { "type": "string" },
+                      "address": { "type": "string" },
+                      "latitude": { "type": "number" },
+                      "longitude": { "type": "number" },
+                      "distance": { "type": "number" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
