@@ -1,6 +1,6 @@
 # School API Documentation
 
-This document provides an overview of the endpoints available in the School API, including descriptions, expected request data, and possible status codes.
+This document provides an overview of the endpoints available in the School API, including descriptions, expected request data, status codes, and the project folder structure.
 
 ---
 
@@ -40,36 +40,57 @@ The request body must be in JSON format with the following properties:
 }
 ```
 
-## 2. List Schools Endpoint
+**Success Response:**
 
-### **Endpoint**
+- **Status Code:** 201 Created
+- **Response Body:**
 
-`http://localhost:3006/api/listSchools?latitude=40.7128&longitude=-74.006`
+```json
+{
+  "message": "School added successfully",
+  "id": 1 // The inserted record id
+}
+```
 
-### **Description**
+**Error Response:**
 
-Retrieves a list of schools sorted based on proximity to the user's current geographical location.
+- **Status Code:** 500 Internal Server Error
+- **Response Body:**
+
+```json
+{
+  "error": "Database error"
+}
+```
 
 ---
 
-### **Query Parameters**
+### 2. List Schools
 
-| Parameter   | Type   | Required | Description                           |
-| ----------- | ------ | -------- | ------------------------------------- |
-| `latitude`  | number | Yes      | The latitude of the user's location.  |
-| `longitude` | number | Yes      | The longitude of the user's location. |
+**Endpoint:**  
+`GET /api/listSchools`
 
----
+**Description:**  
+Retrieves a list of schools sorted based on proximity to the provided location.
 
-### **Example Request**
+**Query Parameters:**
 
----
+- **latitude** (required, number): The latitude of the user's location.
+- **longitude** (required, number): The longitude of the user's location.
 
-### **Response**
+**Example Request URL:**
 
-Returns a JSON array of school objects sorted by distance from the provided coordinates.
+```
+http://localhost:3006/api/listSchools?latitude=40.7128&longitude=-74.006
+```
 
-#### ✅ Example Response
+**Success Response:**
+
+- **Status Code:** 200 OK
+- **Response Body:**  
+  An array of school objects. Each object contains the school details along with a computed `distance` value showing how far the school is from the user's provided coordinates.
+
+**Example Response:**
 
 ```json
 [
@@ -91,3 +112,74 @@ Returns a JSON array of school objects sorted by distance from the provided coor
   }
 ]
 ```
+
+**Error Responses:**
+
+- **Status Code:** 400 Bad Request  
+  **Response Body:**
+
+  ```json
+  {
+    "error": "Invalid latitude or longitude"
+  }
+  ```
+
+  _Description:_ Returned if the `latitude` or `longitude` query parameters are missing or invalid.
+
+- **Status Code:** 500 Internal Server Error  
+  **Response Body:**
+
+  ```json
+  {
+    "error": "Database error"
+  }
+  ```
+
+  _Description:_ Returned if there's an issue retrieving the data from the database.
+
+---
+
+## Folder Structure
+
+Below is the project folder structure for the School API:
+
+```
+school-api/
+├── config/
+│   └── db.js
+├── controllers/
+│   └── schoolController.js
+├── docs/
+│   └── swagger.json
+├── routes/
+│   └── schoolRoutes.js
+├── utils/
+│   └── haversine.js
+├── .env
+├── app.js
+├── package.json
+└── README.md
+```
+
+**Description of Key Folders/Files:**
+
+- **config/db.js:** Handles the MySQL database connection.
+- **controllers/schoolController.js:** Contains the logic for handling school-related operations (adding and listing schools).
+- **docs/swagger.json:** Contains the Swagger documentation for the API.
+- **routes/schoolRoutes.js:** Defines the API routes.
+- **utils/haversine.js:** Utility function for calculating the distance between two geographical coordinates.
+- **.env:** Environment variables (e.g., database credentials, port number).
+- **app.js:** Main application file that sets up middleware and starts the server.
+- **package.json:** Project metadata and dependencies.
+
+---
+
+## Notes
+
+- Ensure that the MySQL database is properly configured and running.
+- The `schools` table must exist in the `schooldb` database with the columns: `name`, `address`, `latitude`, and `longitude`.
+- Use tools like Postman or curl to test these endpoints during development.
+
+---
+
+Happy coding!
